@@ -24,6 +24,8 @@ public class Star extends DiscreteBody{
 
     private Star companion;
 
+    private String orbitClass;
+
     private Float minimalAllowableOrbit;
 
     private Float HabitableZoneCenterOrbit;
@@ -82,6 +84,14 @@ public class Star extends DiscreteBody{
 
     public void setAge(Float age) {
         this.age = age;
+    }
+
+    public String getOrbitClass() {
+        return orbitClass;
+    }
+
+    public void setOrbitClass(String orbitClass) {
+        this.orbitClass = orbitClass;
     }
 
     public Star getCompanion() {
@@ -149,7 +159,7 @@ public class Star extends DiscreteBody{
                     ",\n companion=" + companion.getType() + companion.getSubType() + companion.getStarClass() +
                     ",\n minimalAllowableOrbit=" + minimalAllowableOrbit +
                     ", HabitableZoneCenterOrbit=" + HabitableZoneCenterOrbit +
-                    ", OrbitNumber=" + OrbitNumber +
+                    ", OrbitClass=" + orbitClass +
                     '}';
         } else {
             return "Star{" +
@@ -165,7 +175,7 @@ public class Star extends DiscreteBody{
                     ", age=" + age +
                     ",\n minimalAllowableOrbit=" + minimalAllowableOrbit +
                     ", HabitableZoneCenterOrbit=" + HabitableZoneCenterOrbit +
-                    ", OrbitNumber=" + OrbitNumber +
+                    ", OrbitClass=" + orbitClass +
                     '}';
         }
     }

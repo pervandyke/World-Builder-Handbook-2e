@@ -1,6 +1,7 @@
 package vandyke.Generation;
 
 import com.sun.source.tree.IfTree;
+import vandyke.DataObjects.Primary;
 import vandyke.DataObjects.Star;
 import vandyke.Reference.StarTables;
 import vandyke.Utilites.DiceRoller;
@@ -15,8 +16,8 @@ public class PrimaryGeneration {
 
 
 
-    public Star Generate() throws Exception {
-        Star primary = new Star();
+    public Primary Generate() throws Exception {
+        Primary primary = new Primary();
 
         StarGenerationUtilities.GenerateTypeAndClass(primary);
 
@@ -31,6 +32,12 @@ public class PrimaryGeneration {
         primary.setLifespan(StarGenerationUtilities.CalculateLifespan(primary));
 
         primary.setAge(StarGenerationUtilities.GenerateAge(primary));
+
+        primary.setCloseStar(StarGenerator.GenerateSecondaryStar(primary, "Close"));
+
+        primary.setNearStar(StarGenerator.GenerateSecondaryStar(primary, "Near"));
+
+        primary.setFarStar(StarGenerator.GenerateSecondaryStar(primary, "Far"));
 
         primary.setCompanion(StarGenerationUtilities.GenerateCompanions(primary));
 
