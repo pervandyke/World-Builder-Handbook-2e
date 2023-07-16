@@ -11,12 +11,14 @@ public class SystemGenerator {
     public static SolarSystem GenerateSystem() {
         SolarSystem system = new SolarSystem();
 
-        try {
-            system.setPrimaryStar(primaryGenerator.Generate());
-            System.out.println(system.getPrimaryStar().toString());
+        for (int x = 0; x < 100; x++) {
+            try {
+                system.setPrimaryStar(primaryGenerator.Generate());
+                System.out.println(system);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return system;

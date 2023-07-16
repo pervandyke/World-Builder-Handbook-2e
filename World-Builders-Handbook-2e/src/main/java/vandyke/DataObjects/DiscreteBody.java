@@ -2,16 +2,26 @@ package vandyke.DataObjects;
 
 public class DiscreteBody {
 
-    Float orbitNumber;
+    Double orbitNumber;
+
+    Double orbitalPeriod;
 
     DiscreteBody parent;
 
-    public Float getOrbitNumber() {
+    public Double getOrbitNumber() {
         return orbitNumber;
     }
 
-    public void setOrbitNumber(Float orbitNumber) {
+    public void setOrbitNumber(Double orbitNumber) {
         this.orbitNumber = orbitNumber;
+    }
+
+    public Double getOrbitalPeriod() {
+        return orbitalPeriod;
+    }
+
+    public void setOrbitalPeriod(Double orbitalPeriod) {
+        this.orbitalPeriod = orbitalPeriod;
     }
 
     public DiscreteBody getParent() {

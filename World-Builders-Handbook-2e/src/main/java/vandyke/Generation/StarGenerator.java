@@ -42,6 +42,8 @@ public class StarGenerator {
                 GenerateTwinNonPrimary(companion, parent);
             }
             companion.setOrbitClass("Companion");
+            StarGenerationUtilities.GenerateStellarOrbitNumber(companion);
+            companion.setOrbitalPeriod(StarGenerationUtilities.CalculateOrbitalPeriod(parent, companion));
             companion.setParent(parent);
         } else {
             companion = null;
@@ -80,8 +82,11 @@ public class StarGenerator {
             } else if (secondaryTypeRoll == 11 || secondaryTypeRoll == 12) {
                 GenerateTwinNonPrimary(secondary, primary);
             }
-            secondary.setOrbitClass("orbitClass");
+            secondary.setOrbitClass(orbitClass);
             secondary.setParent(primary);
+            StarGenerationUtilities.GenerateStellarOrbitNumber(secondary);
+            secondary.setOrbitalPeriod(StarGenerationUtilities.CalculateOrbitalPeriod(primary, secondary));
+            //TODO: Eccentricity
             secondary.setCompanion(GenerateCompanionStar(secondary));
         } else {
             secondary = null;
@@ -146,7 +151,7 @@ public class StarGenerator {
             newType = starTables.TypeAdjacency.get(starTables.TypeAdjacency.indexOf(primary.getType() + 5) - 1).replaceAll("[0-9]", "");
         }
 
-        System.out.println("Secondary Type: " + newType);
+        //System.out.println("Secondary Type: " + newType);
 
         StarGenerationUtilities.GenerateTypeAndClass(nonPrimary, newType, primary.getStarClass());
 
@@ -205,7 +210,7 @@ public class StarGenerator {
 
         StarGenerationUtilities.CalculateMassAndTemperature(nonPrimary);
 
-        Float randomVariation = 1.0f - ((roller.RollND6(1) - 1) / 100f);
+        Double randomVariation = 1d - ((roller.RollND6(1) - 1d) / 100d);
 
         nonPrimary.setMass(primary.getMass() * randomVariation);
         nonPrimary.setDiameter(primary.getDiameter() * randomVariation);

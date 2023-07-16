@@ -21,13 +21,13 @@ public class DiceRoller {
         return r.nextInt(lower, upper);
     }
 
-    public Float randPercentage(Integer max) {
-        return randInt(0, max) / 100f;
+    public Double randPercentage(Integer max) {
+        return randInt(0, max) / 100d;
     }
 
-    public Float randVariance(Integer max) {
-        float magnitude = randInt(0, max) / 100f;
-        float variance;
+    public Double randVariance(Integer max) {
+        double magnitude = randInt(0, max) / 100d;
+        double variance;
         if (randInt(1, 100) >= 50) {
             variance = -magnitude;
         } else {

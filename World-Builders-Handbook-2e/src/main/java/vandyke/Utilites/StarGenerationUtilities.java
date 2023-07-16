@@ -13,13 +13,13 @@ public class StarGenerationUtilities {
     private static final StarTables starTables = new StarTables();
     public static void CalculateMassAndTemperature(Star star) throws Exception{
         // Calculate Mass and Temperature
-        Float mass;
+        Double mass;
         Integer temperature;
 
         String fullType = star.getType() + star.getSubType();
         //System.out.println("fullType: " + fullType);
-        String upperAdjacentType = null;
-        String lowerAdjacentType = null;
+        String upperAdjacentType;
+        String lowerAdjacentType;
 
         if (star.getSubType() == 0 || star.getSubType() == 5 || fullType.equals("M9")) {
             mass = LookupReferenceMass(fullType, star.getStarClass());
@@ -37,12 +37,12 @@ public class StarGenerationUtilities {
             //System.out.println("Lower Adjacent Type: " + lowerAdjacentType);
 
             // Get subTypeFraction
-            float subTypeFraction;
-            float lowerReferenceSubType = Float.parseFloat(lowerAdjacentType.replaceAll("[A-Za-z]", ""));
+            double subTypeFraction;
+            double lowerReferenceSubType = Double.parseDouble(lowerAdjacentType.replaceAll("[A-Za-z]", ""));
             //System.out.println("Lower Reference Sub Type: " + lowerReferenceSubType);
-            float upperReferenceSubType = Float.parseFloat(upperAdjacentType.replaceAll("[A-Za-z]", ""));
+            double upperReferenceSubType = Double.parseDouble(upperAdjacentType.replaceAll("[A-Za-z]", ""));
             //System.out.println("Upper Reference Sub Type: " + upperReferenceSubType);
-            float referenceRange;
+            Double referenceRange;
             if (lowerAdjacentType.endsWith("0")) {
                 referenceRange = 10f - upperReferenceSubType;
             } else {
@@ -50,8 +50,8 @@ public class StarGenerationUtilities {
             }
             //System.out.println("Reference range: " + referenceRange);
 
-            Float lowerReferenceMass = LookupReferenceMass(lowerAdjacentType, star.getStarClass());
-            Float upperReferenceMass = LookupReferenceMass(upperAdjacentType, star.getStarClass());
+            Double lowerReferenceMass = LookupReferenceMass(lowerAdjacentType, star.getStarClass());
+            Double upperReferenceMass = LookupReferenceMass(upperAdjacentType, star.getStarClass());
 
             if (star.getSubType() > referenceRange) {
                 subTypeFraction = (star.getSubType() - referenceRange) / referenceRange;
@@ -63,10 +63,10 @@ public class StarGenerationUtilities {
 
             if (star.getStarClass().equals("IV") && star.getType().equals("K") && star.getSubType() >= 1) {
                 mass = switch (star.getSubType()) {
-                    case 1 -> 1.55f;
-                    case 2 -> 1.6f;
-                    case 3 -> 1.65f;
-                    case 4 -> 1.7f;
+                    case 1 -> 1.55d;
+                    case 2 -> 1.6d;
+                    case 3 -> 1.65d;
+                    case 4 -> 1.7d;
                     default -> null;
                 };
                 if (mass == null) {
@@ -85,7 +85,7 @@ public class StarGenerationUtilities {
             //System.out.println("Upper Reference Temperature: " + upperReferenceTemperature);
             Integer lowerReferenceTemperature = starTables.Temperature.get(lowerAdjacentType);
             //System.out.println("Lower Reference Temperature: " + lowerReferenceTemperature);
-            temperature = upperReferenceTemperature - Formulas.Interpolate(subTypeFraction, lowerReferenceTemperature.floatValue(), upperReferenceTemperature.floatValue()).intValue();
+            temperature = upperReferenceTemperature - Formulas.Interpolate(subTypeFraction, lowerReferenceTemperature.doubleValue(), upperReferenceTemperature.doubleValue()).intValue();
         }
 
         // Apply max 20% variance to mass
@@ -97,12 +97,12 @@ public class StarGenerationUtilities {
 
     public static void CalculateDiameter(Star star) throws Exception{
         // Calculate Mass and Temperature
-        Float diameter;
+        Double diameter;
 
         String fullType = star.getType() + star.getSubType();
         //System.out.println("fullType: " + fullType);
-        String upperAdjacentType = null;
-        String lowerAdjacentType = null;
+        String upperAdjacentType;
+        String lowerAdjacentType;
 
         if (star.getSubType() == 0 || star.getSubType() == 5 || fullType.equals("M9")) {
             diameter = LookupReferenceDiameter(fullType, star.getStarClass());
@@ -119,12 +119,12 @@ public class StarGenerationUtilities {
             //System.out.println("Lower Adjacent Type: " + lowerAdjacentType);
 
             // Get subTypeFraction
-            float subTypeFraction;
-            float lowerReferenceSubType = Float.parseFloat(lowerAdjacentType.replaceAll("[A-Za-z]", ""));
+            double subTypeFraction;
+            double lowerReferenceSubType = Double.parseDouble(lowerAdjacentType.replaceAll("[A-Za-z]", ""));
             //System.out.println("Lower Reference Sub Type: " + lowerReferenceSubType);
-            float upperReferenceSubType = Float.parseFloat(upperAdjacentType.replaceAll("[A-Za-z]", ""));
+            double upperReferenceSubType = Double.parseDouble(upperAdjacentType.replaceAll("[A-Za-z]", ""));
             //System.out.println("Upper Reference Sub Type: " + upperReferenceSubType);
-            float referenceRange;
+            Double referenceRange;
             if (lowerAdjacentType.endsWith("0")) {
                 referenceRange = 10f - upperReferenceSubType;
             } else {
@@ -132,8 +132,8 @@ public class StarGenerationUtilities {
             }
             //System.out.println("Reference range: " + referenceRange);
 
-            Float lowerReferenceDiameter = LookupReferenceDiameter(lowerAdjacentType, star.getStarClass());
-            Float upperReferenceDiameter = LookupReferenceDiameter(upperAdjacentType, star.getStarClass());
+            Double lowerReferenceDiameter = LookupReferenceDiameter(lowerAdjacentType, star.getStarClass());
+            Double upperReferenceDiameter = LookupReferenceDiameter(upperAdjacentType, star.getStarClass());
 
             if (star.getSubType() > referenceRange) {
                 subTypeFraction = (star.getSubType() - referenceRange) / referenceRange;
@@ -146,10 +146,10 @@ public class StarGenerationUtilities {
             if (star.getStarClass().equals("IV") && star.getType().equals("K") && star.getSubType() >= 1) {
                 diameter = switch (star.getSubType()) {
                     //FIXME: THESE VALUES ARE GUESS VALUES, FIX ASAP
-                    case 1 -> 6.8f;
-                    case 2 -> 7.5f;
-                    case 3 -> 8.3f;
-                    case 4 -> 9f;
+                    case 1 -> 6.8d;
+                    case 2 -> 7.5d;
+                    case 3 -> 8.3d;
+                    case 4 -> 9d;
                     default -> null;
                 };
                 if (diameter == null) {
@@ -165,14 +165,29 @@ public class StarGenerationUtilities {
         }
         star.setDiameter(diameter);
     }
-    public static Float CalculateLuminosity(Star star) {
-        return (float)(Math.pow(star.getDiameter(), 2d) * Math.pow(star.getTemperature() / 5772d, 4d));
+    public static Double CalculateLuminosity(Star star) {
+        return Math.pow(star.getDiameter(), 2d) * Math.pow(star.getTemperature() / 5772d, 4d);
     }
 
-    public static Float CalculateLifespan(Star star) {
+    public static Double CalculateLifespan(Star star) {
         //TODO: Implement Giant and Sub-Giant lifespan calculation
-        return (float)(10/Math.pow(star.getMass(), 2.5d));
+        return 10/Math.pow(star.getMass(), 2.5d);
     }
+
+    public static Double CalculateOrbitalPeriod(Star parent, Star child) {
+        Double M;
+        Double m = child.getMass();
+        if (parent.getCompanion() != null && parent.getCompanion() != child) {
+            M = parent.getMass() + parent.getCompanion().getMass();
+        } else {
+            M = parent.getMass();
+        }
+
+        double AU = ConversionUtilites.OrbitNumberToAU(child.getOrbitNumber());
+
+        return (Math.sqrt(Math.pow(AU, 3) / (M + m)));
+    }
+
 
     public static Star GenerateCompanions(Star primary) throws Exception {
         return StarGenerator.GenerateCompanionStar(primary);
@@ -254,20 +269,47 @@ public class StarGenerationUtilities {
         star.setSubType(subType);
     }
 
-    public static Float GenerateAge(Star star) {
-        float age;
+    public static Double GenerateAge(Star star) {
+        double age;
 
         if (star.getMass() >= 0.9f) {
             age = star.getLifespan() * ((roller.RollDN(100)/100f));
         } else {
-            age = roller.RollDN(6) * 2f + roller.RollDN(3) - 2f + (roller.RollDN(10)/10f);
+            age = roller.RollDN(6) * 2d + roller.RollDN(3) - 2d + (roller.RollDN(10)/10d);
         }
         //TODO: Implement Giant and Sub-Giant age generation
         return age;
     }
 
-    public static Float LookupReferenceDiameter(String fullType, String starClass) {
-        Float diameter = null;
+    public static void GenerateStellarOrbitNumber(Star star) {
+        double result;
+        switch (star.getOrbitClass()) {
+            case "Companion" -> star.setOrbitNumber((roller.RollND6(1) / 10d) + ((roller.RollND6(2) - 7f) / 100d));
+            case "Close" -> {
+                int roll = roller.RollND6(1) - 1;
+                result = roll;
+                if (roll == 0) {
+                    result = 0.5d + (0.5f * roller.randPercentage(100));
+                } else {
+                    result = result + (0.5f * roller.randVariance(100));
+                }
+                star.setOrbitNumber(result);
+            }
+            case "Near" -> {
+                result = roller.RollND6(1) + 5d;
+                result = result + (0.5f * roller.randVariance(100));
+                star.setOrbitNumber(result);
+            }
+            case "Far" -> {
+                result = roller.RollND6(1) + 11d;
+                result = result + (0.5f * roller.randVariance(100));
+                star.setOrbitNumber(result);
+            }
+        }
+    }
+
+    public static Double LookupReferenceDiameter(String fullType, String starClass) {
+        Double diameter = null;
         switch (starClass) {
             case "Ia" -> diameter = starTables.IaDiameter.get(fullType);
             case "Ib" -> diameter = starTables.IbDiameter.get(fullType);
@@ -280,8 +322,8 @@ public class StarGenerationUtilities {
         return diameter;
     }
 
-    public static Float LookupReferenceMass(String fullType, String starClass) {
-        Float starMass = null;
+    public static Double LookupReferenceMass(String fullType, String starClass) {
+        Double starMass = null;
         switch (starClass) {
             case "Ia" -> starMass = starTables.Ia.get(fullType);
             case "Ib" -> starMass = starTables.Ib.get(fullType);

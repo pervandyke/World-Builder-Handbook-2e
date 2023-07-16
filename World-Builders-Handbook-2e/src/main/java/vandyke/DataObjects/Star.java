@@ -10,25 +10,25 @@ public class Star extends DiscreteBody{
 
     private String color;
 
-    private Float mass;
+    private Double mass;
 
     private Integer temperature;
 
-    private Float diameter;
+    private Double diameter;
 
-    private Float luminosity;
+    private Double luminosity;
 
-    private Float lifespan;
+    private Double lifespan;
 
-    private Float age;
+    private Double age;
 
     private Star companion;
 
     private String orbitClass;
 
-    private Float minimalAllowableOrbit;
+    private Double minimalAllowableOrbit;
 
-    private Float HabitableZoneCenterOrbit;
+    private Double HabitableZoneCenterOrbit;
 
     public String getColor() {
         return color;
@@ -38,11 +38,11 @@ public class Star extends DiscreteBody{
         this.color = color;
     }
 
-    public Float getMass() {
+    public Double getMass() {
         return mass;
     }
 
-    public void setMass(Float mass) {
+    public void setMass(Double mass) {
         this.mass = mass;
     }
 
@@ -54,35 +54,35 @@ public class Star extends DiscreteBody{
         this.temperature = temperature;
     }
 
-    public Float getDiameter() {
+    public Double getDiameter() {
         return diameter;
     }
 
-    public void setDiameter(Float diameter) {
+    public void setDiameter(Double diameter) {
         this.diameter = diameter;
     }
 
-    public Float getLuminosity() {
+    public Double getLuminosity() {
         return luminosity;
     }
 
-    public void setLuminosity(Float luminosity) {
+    public void setLuminosity(Double luminosity) {
         this.luminosity = luminosity;
     }
 
-    public Float getLifespan() {
+    public Double getLifespan() {
         return lifespan;
     }
 
-    public void setLifespan(Float lifespan) {
+    public void setLifespan(Double lifespan) {
         this.lifespan = lifespan;
     }
 
-    public Float getAge() {
+    public Double getAge() {
         return age;
     }
 
-    public void setAge(Float age) {
+    public void setAge(Double age) {
         this.age = age;
     }
 
@@ -102,19 +102,19 @@ public class Star extends DiscreteBody{
         this.companion = companion;
     }
 
-    public Float getMinimalAllowableOrbit() {
+    public Double getMinimalAllowableOrbit() {
         return minimalAllowableOrbit;
     }
 
-    public void setMinimalAllowableOrbit(Float minimalAllowableOrbit) {
+    public void setMinimalAllowableOrbit(Double minimalAllowableOrbit) {
         this.minimalAllowableOrbit = minimalAllowableOrbit;
     }
 
-    public Float getHabitableZoneCenterOrbit() {
+    public Double getHabitableZoneCenterOrbit() {
         return HabitableZoneCenterOrbit;
     }
 
-    public void setHabitableZoneCenterOrbit(Float habitableZoneCenterOrbit) {
+    public void setHabitableZoneCenterOrbit(Double habitableZoneCenterOrbit) {
         HabitableZoneCenterOrbit = habitableZoneCenterOrbit;
     }
 

@@ -39,7 +39,7 @@ public class Primary extends Star {
         sb.append("Primary " + this.getType() + this.getSubType() + this.getStarClass() + ":\n");
         sb.append(" Color: " + this.getColor() + "\n");
         sb.append(" Mass: " + this.getMass() + "Sols, Temperature: " + this.getTemperature() +"K, Diameter: "
-                + this.getDiameter() +" Sols, Luminosity: " + this.getLuminosity() + "Sols\n");
+                + this.getDiameter() +"Sols, Luminosity: " + this.getLuminosity() + "Sols\n");
         sb.append(" Lifespan: " + this.getLifespan() + "Gyr, Age: " + this.getAge() + "Gyr\n");
         sb.append(" Minimal Allowable Orbit: " + this.getMinimalAllowableOrbit() + ", Habitable Zone Center Orbit: " + this.getHabitableZoneCenterOrbit() + "\n");
 
