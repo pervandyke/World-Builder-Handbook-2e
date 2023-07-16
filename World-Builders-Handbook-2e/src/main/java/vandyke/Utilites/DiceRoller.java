@@ -13,6 +13,10 @@ public class DiceRoller {
         return total;
     }
 
+    public Integer RollDN(Integer N) {
+        return r.nextInt(1, N + 1);
+    }
+
     public Integer randInt(Integer lower, Integer upper) {
         return r.nextInt(lower, upper);
     }

@@ -14,7 +14,11 @@ public class Star extends DiscreteBody{
 
     private Integer temperature;
 
+    private Float diameter;
+
     private Float luminosity;
+
+    private Float lifespan;
 
     private Float age;
 
@@ -46,12 +50,28 @@ public class Star extends DiscreteBody{
         this.temperature = temperature;
     }
 
+    public Float getDiameter() {
+        return diameter;
+    }
+
+    public void setDiameter(Float diameter) {
+        this.diameter = diameter;
+    }
+
     public Float getLuminosity() {
         return luminosity;
     }
 
     public void setLuminosity(Float luminosity) {
         this.luminosity = luminosity;
+    }
+
+    public Float getLifespan() {
+        return lifespan;
+    }
+
+    public void setLifespan(Float lifespan) {
+        this.lifespan = lifespan;
     }
 
     public Float getAge() {
@@ -105,15 +125,17 @@ public class Star extends DiscreteBody{
     @Override
     public String toString() {
         return "Star{" +
-                "type='" + type + '\'' +
+                "\n type='" + type + '\'' +
                 ", subType=" + subType +
                 ", starClass='" + starClass + '\'' +
                 ", color='" + color + '\'' +
-                ", mass=" + mass +
+                ",\n mass=" + mass +
                 ", temperature=" + temperature +
+                ", diameter=" + diameter +
                 ", luminosity=" + luminosity +
+                ",\n lifespan=" + lifespan +
                 ", age=" + age +
-                ", minimalAllowableOrbit=" + minimalAllowableOrbit +
+                ",\n minimalAllowableOrbit=" + minimalAllowableOrbit +
                 ", HabitableZoneCenterOrbit=" + HabitableZoneCenterOrbit +
                 ", OrbitNumber=" + OrbitNumber +
                 '}';
