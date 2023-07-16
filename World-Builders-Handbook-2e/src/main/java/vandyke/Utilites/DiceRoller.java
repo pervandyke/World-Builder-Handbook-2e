@@ -20,4 +20,19 @@ public class DiceRoller {
     public Integer randInt(Integer lower, Integer upper) {
         return r.nextInt(lower, upper);
     }
+
+    public Float randPercentage(Integer max) {
+        return randInt(0, max) / 100f;
+    }
+
+    public Float randVariance(Integer max) {
+        float magnitude = randInt(0, max) / 100f;
+        float variance;
+        if (randInt(1, 100) >= 50) {
+            variance = -magnitude;
+        } else {
+            variance = magnitude;
+        }
+        return variance;
+    }
 }

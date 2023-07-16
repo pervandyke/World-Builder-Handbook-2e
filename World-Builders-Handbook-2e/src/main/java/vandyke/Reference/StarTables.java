@@ -52,6 +52,8 @@ public class StarTables {
 
     public ArrayList<String> TypeAdjacency = new ArrayList<>();
 
+    public Hashtable<Integer, String> NonPrimaryCompanion = new Hashtable<>();
+
     public StarTables() {
         // Populate Type table
         Type.put(2, "Special");
@@ -380,6 +382,18 @@ public class StarTables {
         VIDiameter.put("B0", 0.2f);
         VIDiameter.put("O5", 0.18f);
         VIDiameter.put("O0", 0.18f);
+
+        NonPrimaryCompanion.put(2, "Other");
+        NonPrimaryCompanion.put(3, "Other");
+        NonPrimaryCompanion.put(4, "Random");
+        NonPrimaryCompanion.put(5, "Random");
+        NonPrimaryCompanion.put(6, "Lesser");
+        NonPrimaryCompanion.put(7, "Lesser");
+        NonPrimaryCompanion.put(8, "Sibling");
+        NonPrimaryCompanion.put(9, "Sibling");
+        NonPrimaryCompanion.put(10, "Twin");
+        NonPrimaryCompanion.put(11, "Twin");
+        NonPrimaryCompanion.put(12, "Twin");
     }
 
 

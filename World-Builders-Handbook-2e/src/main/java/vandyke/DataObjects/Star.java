@@ -22,6 +22,8 @@ public class Star extends DiscreteBody{
 
     private Float age;
 
+    private Star companion;
+
     private Float minimalAllowableOrbit;
 
     private Float HabitableZoneCenterOrbit;
@@ -82,6 +84,14 @@ public class Star extends DiscreteBody{
         this.age = age;
     }
 
+    public Star getCompanion() {
+        return companion;
+    }
+
+    public void setCompanion(Star companion) {
+        this.companion = companion;
+    }
+
     public Float getMinimalAllowableOrbit() {
         return minimalAllowableOrbit;
     }
@@ -124,20 +134,39 @@ public class Star extends DiscreteBody{
 
     @Override
     public String toString() {
-        return "Star{" +
-                "\n type='" + type + '\'' +
-                ", subType=" + subType +
-                ", starClass='" + starClass + '\'' +
-                ", color='" + color + '\'' +
-                ",\n mass=" + mass +
-                ", temperature=" + temperature +
-                ", diameter=" + diameter +
-                ", luminosity=" + luminosity +
-                ",\n lifespan=" + lifespan +
-                ", age=" + age +
-                ",\n minimalAllowableOrbit=" + minimalAllowableOrbit +
-                ", HabitableZoneCenterOrbit=" + HabitableZoneCenterOrbit +
-                ", OrbitNumber=" + OrbitNumber +
-                '}';
+        if (companion != null) {
+            return "Star{" +
+                    "\n type='" + type + '\'' +
+                    ", subType=" + subType +
+                    ", starClass='" + starClass + '\'' +
+                    ", color='" + color + '\'' +
+                    ",\n mass=" + mass +
+                    ", temperature=" + temperature +
+                    ", diameter=" + diameter +
+                    ", luminosity=" + luminosity +
+                    ",\n lifespan=" + lifespan +
+                    ", age=" + age +
+                    ",\n companion=" + companion.getType() + companion.getSubType() + companion.getStarClass() +
+                    ",\n minimalAllowableOrbit=" + minimalAllowableOrbit +
+                    ", HabitableZoneCenterOrbit=" + HabitableZoneCenterOrbit +
+                    ", OrbitNumber=" + OrbitNumber +
+                    '}';
+        } else {
+            return "Star{" +
+                    "\n type='" + type + '\'' +
+                    ", subType=" + subType +
+                    ", starClass='" + starClass + '\'' +
+                    ", color='" + color + '\'' +
+                    ",\n mass=" + mass +
+                    ", temperature=" + temperature +
+                    ", diameter=" + diameter +
+                    ", luminosity=" + luminosity +
+                    ",\n lifespan=" + lifespan +
+                    ", age=" + age +
+                    ",\n minimalAllowableOrbit=" + minimalAllowableOrbit +
+                    ", HabitableZoneCenterOrbit=" + HabitableZoneCenterOrbit +
+                    ", OrbitNumber=" + OrbitNumber +
+                    '}';
+        }
     }
 }

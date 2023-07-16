@@ -1,6 +1,6 @@
 package vandyke.DataObjects;
 
-public class System {
+public class SolarSystem {
 
     private Star primaryStar;
 

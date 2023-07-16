@@ -1,13 +1,25 @@
 package vandyke.Generation;
 
-import vandyke.DataObjects.System;
+import vandyke.DataObjects.SolarSystem;
+import vandyke.DataObjects.Star;
 
 public class SystemGenerator {
 
-    public System GenerateSystem() {
-        System system = new System();
+    static PrimaryGeneration primaryGenerator = new PrimaryGeneration();
 
-        //PrimaryGeneration.Generate();
+    public static SolarSystem GenerateSystem() {
+        SolarSystem system = new SolarSystem();
+
+        try {
+            Star primary = primaryGenerator.Generate();
+            System.out.println(primary.toString());
+            if (primary.getCompanion() != null) {
+                System.out.println("Companion: ");
+                System.out.println(primary.getCompanion().toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return system;
     }
