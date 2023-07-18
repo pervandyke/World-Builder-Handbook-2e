@@ -271,10 +271,7 @@ public class WorldOrbitGenerator {
             }
         }
 
-        primary.children.sort(new DiscreteBodyComparator());
-        for (int i = 1; i < primary.children.size()+1; i++) {
-            primary.children.get(i-1).setName(primary.getName() + " " + i);
-        }
+        NamingUtilities.NumberChildren(primary);
     }
 
     public static void GenerateOrbitSlots(StarSystem system) {

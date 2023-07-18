@@ -1,5 +1,8 @@
 package vandyke.Utilites;
 
+import vandyke.DataObjects.Comparators.DiscreteBodyComparator;
+import vandyke.DataObjects.DiscreteBody;
+
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -27,6 +30,13 @@ public class NamingUtilities {
 
         int exitCode = process.waitFor();
         return result;
+    }
+
+    public static void NumberChildren(DiscreteBody parent) {
+        parent.children.sort(new DiscreteBodyComparator());
+        for (int i = 1; i < parent.children.size()+1; i++) {
+            parent.children.get(i-1).setName(parent.getName() + " " + i);
+        }
     }
 
 }
