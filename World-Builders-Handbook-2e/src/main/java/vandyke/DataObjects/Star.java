@@ -1,10 +1,20 @@
 package vandyke.DataObjects;
 
+import java.util.ArrayList;
+
 public class Star extends DiscreteBody{
 
     private String type;
 
     private Integer subType;
+
+    private Double subTypeFraction;
+
+    private String upperAdjacentType;
+
+    private String lowerAdjacentType;
+
+    private Double referenceRange;
 
     private String starClass;
 
@@ -26,9 +36,53 @@ public class Star extends DiscreteBody{
 
     private String orbitClass;
 
+    private Integer assignedOrbitCount;
+
+    public ArrayList<OrbitRange> orbitLegality;
+
     private Double minimalAllowableOrbit;
 
     private Double HabitableZoneCenterOrbit;
+
+    public Double getReferenceRange() {
+        return referenceRange;
+    }
+
+    public void setReferenceRange(Double referenceRange) {
+        this.referenceRange = referenceRange;
+    }
+
+    public Double getSubTypeFraction() {
+        return subTypeFraction;
+    }
+
+    public void setSubTypeFraction(Double subTypeFraction) {
+        this.subTypeFraction = subTypeFraction;
+    }
+
+    public String getUpperAdjacentType() {
+        return upperAdjacentType;
+    }
+
+    public void setUpperAdjacentType(String upperAdjacentType) {
+        this.upperAdjacentType = upperAdjacentType;
+    }
+
+    public String getLowerAdjacentType() {
+        return lowerAdjacentType;
+    }
+
+    public void setLowerAdjacentType(String lowerAdjacentType) {
+        this.lowerAdjacentType = lowerAdjacentType;
+    }
+
+    public Integer getAssignedOrbitCount() {
+        return assignedOrbitCount;
+    }
+
+    public void setAssignedOrbitCount(Integer assignedOrbitCount) {
+        this.assignedOrbitCount = assignedOrbitCount;
+    }
 
     public String getColor() {
         return color;

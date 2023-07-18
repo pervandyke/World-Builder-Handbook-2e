@@ -3,9 +3,9 @@ package vandyke.Utilites;
 import java.util.Random;
 
 public class DiceRoller {
-    private final Random r = new Random();
+    private static final Random r = new Random();
 
-    public Integer RollND6(Integer N) {
+    public static Integer RollND6(Integer N) {
         int total = 0;
         for (int i = 0; i < N; i++) {
             total = total + r.nextInt(1,7);
@@ -13,19 +13,19 @@ public class DiceRoller {
         return total;
     }
 
-    public Integer RollDN(Integer N) {
+    public static Integer RollDN(Integer N) {
         return r.nextInt(1, N + 1);
     }
 
-    public Integer randInt(Integer lower, Integer upper) {
+    public static Integer randInt(Integer lower, Integer upper) {
         return r.nextInt(lower, upper);
     }
 
-    public Double randPercentage(Integer max) {
+    public static Double randPercentage(Integer max) {
         return randInt(0, max) / 100d;
     }
 
-    public Double randVariance(Integer max) {
+    public static Double randVariance(Integer max) {
         double magnitude = randInt(0, max) / 100d;
         double variance;
         if (randInt(1, 100) >= 50) {

@@ -1,5 +1,7 @@
 package vandyke.DataObjects;
 
+import java.util.ArrayList;
+
 public class DiscreteBody {
 
     Double orbitNumber;
@@ -7,6 +9,8 @@ public class DiscreteBody {
     Double orbitalPeriod;
 
     DiscreteBody parent;
+
+    public ArrayList<DiscreteBody> children;
 
     public Double getOrbitNumber() {
         return orbitNumber;
@@ -31,4 +35,6 @@ public class DiscreteBody {
     public void setParent(DiscreteBody parent) {
         this.parent = parent;
     }
+
+
 }

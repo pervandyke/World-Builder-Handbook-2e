@@ -33,13 +33,14 @@ public class PrimaryGeneration {
 
         primary.setAge(StarGenerationUtilities.GenerateAge(primary));
 
-        primary.setCloseStar(StarGenerator.GenerateSecondaryStar(primary, "Close"));
+        //TODO: Re-enable after clarification on multi-star orbit generation.
+        //primary.setCloseStar(StarGenerator.GenerateSecondaryStar(primary, "Close"));
 
-        primary.setNearStar(StarGenerator.GenerateSecondaryStar(primary, "Near"));
+        //primary.setNearStar(StarGenerator.GenerateSecondaryStar(primary, "Near"));
 
-        primary.setFarStar(StarGenerator.GenerateSecondaryStar(primary, "Far"));
+        //primary.setFarStar(StarGenerator.GenerateSecondaryStar(primary, "Far"));
 
-        primary.setCompanion(StarGenerationUtilities.GenerateCompanions(primary));
+        //primary.setCompanion(StarGenerationUtilities.GenerateCompanions(primary));
 
         return primary;
     }

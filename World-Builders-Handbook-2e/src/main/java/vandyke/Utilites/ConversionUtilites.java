@@ -11,4 +11,16 @@ public class ConversionUtilites {
         Double fractionalOrbitNumber = Double.parseDouble(orbitNumber.toString().substring(orbitNumber.toString().indexOf(".")));
         return (Double) (orbitTable.DistanceAU.get(wholeOrbitNumber) + (orbitTable.DifferenceAU.get(wholeOrbitNumber) * fractionalOrbitNumber));
     }
+
+    public static Double AUToOrbitNumber(Double AU) {
+        int largestWholeOrbitNumber = 0;
+        for (int x = 0; x < 21; x++) {
+            if (orbitTable.DistanceAU.get(x) < AU) {
+                largestWholeOrbitNumber = x;
+            } else {
+                break;
+            }
+        }
+        return largestWholeOrbitNumber + ((AU - orbitTable.DistanceAU.get(largestWholeOrbitNumber)) / orbitTable.DifferenceAU.get(largestWholeOrbitNumber));
+    }
 }

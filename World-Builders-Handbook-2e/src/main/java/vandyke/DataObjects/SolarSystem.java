@@ -1,14 +1,28 @@
 package vandyke.DataObjects;
 
+import java.util.ArrayList;
+
 public class SolarSystem {
 
     private Primary primaryStar;
 
+    private Integer starCount;
+
+    public ArrayList<DiscreteBody> bodies = new ArrayList<>();
+
+    private Integer orbitSlots;
+
+    private Integer gasGiants;
+
+    private Integer planetoidBelts;
+
+    private Integer terrestrialPlanets;
+
+    private Integer emptyOrbits;
+
     private Integer systemBaselineNumber;
 
     private Double systemBaselineOrbitNumber;
-
-    private Integer emptyOrbits;
 
     private Double systemSpread;
 
@@ -18,6 +32,54 @@ public class SolarSystem {
 
     public void setPrimaryStar(Primary primaryStar) {
         this.primaryStar = primaryStar;
+    }
+
+    public Integer getStarCount() {
+        return starCount;
+    }
+
+    public void setStarCount(Integer starCount) {
+        this.starCount = starCount;
+    }
+
+    public Integer getOrbitSlots() {
+        return orbitSlots;
+    }
+
+    public void setOrbitSlots(Integer orbitSlots) {
+        this.orbitSlots = orbitSlots;
+    }
+
+    public Integer getGasGiants() {
+        return gasGiants;
+    }
+
+    public void setGasGiants(Integer gasGiants) {
+        this.gasGiants = gasGiants;
+    }
+
+    public Integer getPlanetoidBelts() {
+        return planetoidBelts;
+    }
+
+    public void setPlanetoidBelts(Integer planetoidBelts) {
+        this.planetoidBelts = planetoidBelts;
+    }
+
+    public Integer getTerrestrialPlanets() {
+        return terrestrialPlanets;
+    }
+
+    public void setTerrestrialPlanets(Integer terrestrialPlanets) {
+        this.terrestrialPlanets = terrestrialPlanets;
+    }
+
+    public Integer getEmptyOrbits() {
+        return emptyOrbits;
+    }
+
+    public void setEmptyOrbits(Integer emptyOrbits) {
+        this.emptyOrbits = emptyOrbits;
     }
 
     public Integer getSystemBaselineNumber() {
@@ -36,14 +98,6 @@ public class SolarSystem {
         this.systemBaselineOrbitNumber = systemBaselineOrbitNumber;
     }
 
-    public Integer getEmptyOrbits() {
-        return emptyOrbits;
-    }
-
-    public void setEmptyOrbits(Integer emptyOrbits) {
-        this.emptyOrbits = emptyOrbits;
-    }
-
     public Double getSystemSpread() {
         return systemSpread;
     }
@@ -57,7 +111,8 @@ public class SolarSystem {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("Primary: " + this.getPrimaryStar().getType() + this.getPrimaryStar().getSubType() + this.getPrimaryStar().getStarClass() + "\n");
+        sb.append("Primary: " + this.getPrimaryStar().getType() + this.getPrimaryStar().getSubType() + this.getPrimaryStar().getStarClass()
+                + " Minimum Allowable Orbit: " + primaryStar.getMinimalAllowableOrbit() + "\n");
 
         if (this.getPrimaryStar().getCompanion() != null) {
             sb.append(" Companion: " + this.getPrimaryStar().getCompanion().getType()

@@ -33,6 +33,9 @@ public class StarGenerationUtilities {
                 upperAdjacentType = starTables.TypeAdjacency.get(starTables.TypeAdjacency.indexOf(star.getType() + 5));
             }
 
+            star.setLowerAdjacentType(lowerAdjacentType);
+            star.setUpperAdjacentType(upperAdjacentType);
+
             //System.out.println("Upper Adjacent Type: " + upperAdjacentType);
             //System.out.println("Lower Adjacent Type: " + lowerAdjacentType);
 
@@ -48,10 +51,9 @@ public class StarGenerationUtilities {
             } else {
                 referenceRange = lowerReferenceSubType - upperReferenceSubType;
             }
-            //System.out.println("Reference range: " + referenceRange);
 
-            Double lowerReferenceMass = LookupReferenceMass(lowerAdjacentType, star.getStarClass());
-            Double upperReferenceMass = LookupReferenceMass(upperAdjacentType, star.getStarClass());
+            star.setReferenceRange(referenceRange);
+            //System.out.println("Reference range: " + referenceRange);
 
             if (star.getSubType() > referenceRange) {
                 subTypeFraction = (star.getSubType() - referenceRange) / referenceRange;
@@ -59,7 +61,12 @@ public class StarGenerationUtilities {
                 subTypeFraction = star.getSubType() / referenceRange;
             }
 
+            star.setSubTypeFraction(subTypeFraction);
+
             //System.out.println("Subtype fraction is: " + subTypeFraction);
+
+            Double lowerReferenceMass = LookupReferenceMass(lowerAdjacentType, star.getStarClass());
+            Double upperReferenceMass = LookupReferenceMass(upperAdjacentType, star.getStarClass());
 
             if (star.getStarClass().equals("IV") && star.getType().equals("K") && star.getSubType() >= 1) {
                 mass = switch (star.getSubType()) {
