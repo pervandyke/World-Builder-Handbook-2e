@@ -6,6 +6,7 @@ import vandyke.DataObjects.Star;
 import vandyke.Reference.StarTables;
 import vandyke.Utilites.DiceRoller;
 import vandyke.Utilites.Formulas;
+import vandyke.Utilites.NamingUtilities;
 import vandyke.Utilites.StarGenerationUtilities;
 
 import java.text.Normalizer;
@@ -18,6 +19,8 @@ public class PrimaryGeneration {
 
     public Primary Generate() throws Exception {
         Primary primary = new Primary();
+
+        primary.setName(NamingUtilities.GeneratePlanetName());
 
         StarGenerationUtilities.GenerateTypeAndClass(primary);
 

@@ -1,9 +1,7 @@
 package vandyke.Generation;
 
 import org.springframework.stereotype.Service;
-import vandyke.DataObjects.Primary;
-import vandyke.DataObjects.SolarSystem;
-import vandyke.DataObjects.Star;
+import vandyke.DataObjects.StarSystem;
 
 @Service
 public class SystemGenerator {
@@ -12,8 +10,8 @@ public class SystemGenerator {
 
     static WorldOrbitGenerator worldGenerator = new WorldOrbitGenerator();
 
-    public static SolarSystem GenerateSystem() {
-        SolarSystem system = new SolarSystem();
+    public static StarSystem GenerateSystem() {
+        StarSystem system = new StarSystem();
 
         try {
             system.setPrimaryStar(primaryGenerator.Generate());
@@ -28,7 +26,7 @@ public class SystemGenerator {
         return system;
     }
 
-    private static Integer CountStars(SolarSystem system) {
+    private static Integer CountStars(StarSystem system) {
         int starCount = 1;
         if (system.getPrimaryStar().getCompanion() != null) {
             starCount++;

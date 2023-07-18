@@ -1,8 +1,11 @@
 package vandyke.DataObjects;
 
-import java.util.ArrayList;
+import vandyke.DataObjects.Comparators.DiscreteBodyComparator;
 
-public class SolarSystem {
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class StarSystem {
 
     private Primary primaryStar;
 
@@ -111,14 +114,17 @@ public class SolarSystem {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("Primary: " + this.getPrimaryStar().getType() + this.getPrimaryStar().getSubType() + this.getPrimaryStar().getStarClass()
-                + " Minimum Allowable Orbit: " + primaryStar.getMinimalAllowableOrbit() + "\n");
-
+        sb.append("Primary: " + this.primaryStar.getName() + ", " + this.getPrimaryStar().getType() + this.getPrimaryStar().getSubType() + this.getPrimaryStar().getStarClass()
+                + ", Minimum Allowable Orbit: " + primaryStar.getMinimalAllowableOrbit() + "\n");
         if (this.getPrimaryStar().getCompanion() != null) {
             sb.append(" Companion: " + this.getPrimaryStar().getCompanion().getType()
                     + this.getPrimaryStar().getCompanion().getSubType() + this.getPrimaryStar().getCompanion().getStarClass()
                     + ", Orbit#: " + this.getPrimaryStar().getCompanion().getOrbitNumber()
                     + ", Orbital Period: " + this.getPrimaryStar().getCompanion().getOrbitalPeriod().toString() + " Standard Years\n");
+        }
+        this.primaryStar.children.sort(new DiscreteBodyComparator());
+        for (DiscreteBody body : this.getPrimaryStar().children) {
+            sb.append(" " + body.getName() + ", Class: " + body.getClass().getSimpleName() + ", Orbit#: " + body.getOrbitNumber().floatValue() + "\n");
         }
         if (this.getPrimaryStar().getCloseStar() != null) {
             sb.append(" Close: " + this.getPrimaryStar(). getCloseStar().getType() + this.getPrimaryStar().getCloseStar().getSubType()

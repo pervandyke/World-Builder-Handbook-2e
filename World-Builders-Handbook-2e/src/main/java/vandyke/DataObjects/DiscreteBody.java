@@ -4,13 +4,22 @@ import java.util.ArrayList;
 
 public class DiscreteBody {
 
-    Double orbitNumber;
+    private String name;
+    private Double orbitNumber;
 
-    Double orbitalPeriod;
+    private Double orbitalPeriod;
 
-    DiscreteBody parent;
+    private DiscreteBody parent;
 
-    public ArrayList<DiscreteBody> children;
+    public ArrayList<DiscreteBody> children = new ArrayList<>();
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Double getOrbitNumber() {
         return orbitNumber;
@@ -36,5 +45,6 @@ public class DiscreteBody {
         this.parent = parent;
     }
 
-
 }
+
+

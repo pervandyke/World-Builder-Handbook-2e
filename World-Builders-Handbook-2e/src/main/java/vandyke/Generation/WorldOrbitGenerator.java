@@ -1,17 +1,15 @@
 package vandyke.Generation;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import vandyke.DataObjects.OrbitRange;
-import vandyke.DataObjects.Primary;
-import vandyke.DataObjects.SolarSystem;
+import vandyke.DataObjects.*;
+import vandyke.DataObjects.Comparators.DiscreteBodyComparator;
 import vandyke.Reference.MAOTables;
 import vandyke.Reference.MinimumAllowableOrbit;
 import vandyke.Reference.StarTables;
-import vandyke.Repositories.MinimumAllowableOrbitRepository;
 import vandyke.Utilites.ConversionUtilites;
 import vandyke.Utilites.DiceRoller;
 import vandyke.Utilites.Formulas;
+import vandyke.Utilites.NamingUtilities;
 
 import java.util.ArrayList;
 
@@ -22,11 +20,11 @@ public class WorldOrbitGenerator {
 
     private static final MAOTables maoTables = new MAOTables();
 
-    public void GenerateWorlds(SolarSystem system) throws Exception{
+    public void GenerateWorlds(StarSystem system) throws Exception{
         GenerateBodyCount(system);
         AssignOrbits(system);
     }
-    public void GenerateBodyCount(SolarSystem system) {
+    public void GenerateBodyCount(StarSystem system) {
         // Gas Giants exist on 9 or less
         if (DiceRoller.RollND6(2) < 10) {
             int gasGiantRoll = DiceRoller.RollND6(2);
@@ -111,9 +109,9 @@ public class WorldOrbitGenerator {
         system.setOrbitSlots(system.getGasGiants() + system.getPlanetoidBelts() + system.getTerrestrialPlanets() + system.getEmptyOrbits());
     }
 
-    private void AssignOrbits(SolarSystem system) throws Exception{
+    private void AssignOrbits(StarSystem system) throws Exception{
         //Calculate MAO
-        Double minimumAllowableOrbit;
+        Double minimumAllowableOrbit = null;
 
         // Use reference table
         Primary primary = system.getPrimaryStar();
@@ -161,13 +159,125 @@ public class WorldOrbitGenerator {
         Double HZCO_AU = Math.sqrt(primary.getLuminosity());
         Double HZCO_OrbitNumber = ConversionUtilites.AUToOrbitNumber(HZCO_AU);
 
+        // Determine System Baseline Number
+        //TODO: check if HZCO is legal orbit
+        int totalWorlds = system.getPlanetoidBelts() + system.getGasGiants() + system.getTerrestrialPlanets();
+
+        if (true) {
+            int baselineRoll = DiceRoller.RollND6(2);
+            if (primary.getCompanion() != null) {
+                baselineRoll -= 2;
+            }
+            switch (primary.getStarClass()) {
+                case "Ia", "Ib", "II" -> baselineRoll += 3;
+                case "III" -> baselineRoll += 2;
+                case "IV" -> baselineRoll += 1;
+                case "VI" -> baselineRoll -= 1;
+            }
+            //TODO: post stellar objects
+
+            if (totalWorlds < 6) {
+                baselineRoll -= 4;
+            } else if (totalWorlds < 9) {
+                baselineRoll -= 3;
+            } else if (totalWorlds < 12) {
+                baselineRoll -= 2;
+            } else if (totalWorlds < 15) {
+                baselineRoll -= 1;
+            } else if (totalWorlds < 20) {
+                baselineRoll += 1;
+            } else {
+                baselineRoll += 2;
+            }
+            system.setSystemBaselineNumber(baselineRoll);
+        }
+
+        int baselineNumber = system.getSystemBaselineNumber();
+        double baselineOrbitNumber;
+        // Calculate Baseline Orbit #
+        if (baselineNumber > 1 && baselineNumber < totalWorlds) {
+            if (HZCO_OrbitNumber >= 1) {
+                baselineOrbitNumber = HZCO_OrbitNumber + ((double)(DiceRoller.RollND6(2) - 7) / 10);
+            } else {
+                baselineOrbitNumber = HZCO_OrbitNumber + ((double)(DiceRoller.RollND6(2) - 7) / 100);
+            }
+        } else if (baselineNumber < 1) {
+            if (minimumAllowableOrbit >= 1) {
+                baselineOrbitNumber = HZCO_OrbitNumber - baselineNumber + totalWorlds + ((double)(DiceRoller.RollND6(2) - 2) / 10);
+            } else {
+                baselineOrbitNumber = minimumAllowableOrbit - ((double)baselineNumber/10) + ((double)(DiceRoller.RollND6(2) - 2) / 100);
+            }
+        } else {
+            if (HZCO_OrbitNumber - baselineNumber + totalWorlds >= 1) {
+                baselineOrbitNumber = HZCO_OrbitNumber - baselineNumber + totalWorlds + ((double)(DiceRoller.RollND6(2) - 7) / 5);
+            } else {
+                baselineOrbitNumber = HZCO_OrbitNumber - (baselineNumber + totalWorlds + ((double)(DiceRoller.RollND6(2) - 7) / 5) / 10);
+                if (baselineOrbitNumber < 0) {
+                    baselineOrbitNumber = HZCO_OrbitNumber - 0.1;
+                    double lowerBound = primary.getMinimalAllowableOrbit() + totalWorlds * 0.01;
+                    if (baselineOrbitNumber < lowerBound) {
+                        baselineOrbitNumber = lowerBound;
+                    }
+                }
+            }
+        }
+
+        system.setSystemBaselineOrbitNumber(baselineOrbitNumber);
+
+        double spread = (baselineOrbitNumber - minimumAllowableOrbit) / baselineNumber;
+
+        // This calculation only works for single stars
+        if (minimumAllowableOrbit + (spread * (totalWorlds + system.getEmptyOrbits())) > 20) {
+            spread = (20 - minimumAllowableOrbit) / (totalWorlds + system.getEmptyOrbits() + 1);
+        }
+
         ArrayList<Double> availableOrbits = new ArrayList<>();
 
+        availableOrbits.add((minimumAllowableOrbit + spread) + (((DiceRoller.RollND6(2) - 7) * spread) / 10));
+        for (int i = 1; i < totalWorlds + system.getEmptyOrbits(); i++) {
+            availableOrbits.add((availableOrbits.get(i-1) + spread) + (((DiceRoller.RollND6(2) - 7) * spread) / 10));
+        }
+        // TODO: figure out anomalous orbits
 
+        //TODO: modularize so can be applied to secondaries
+        for (int i = 0; i < totalWorlds + system.getEmptyOrbits(); i++) {
+            if (system.getEmptyOrbits() > 0) {
+                availableOrbits.remove(DiceRoller.randInt(0, availableOrbits.size()).intValue());
+                system.setEmptyOrbits(system.getEmptyOrbits()-1);
+                continue;
+            }
+            if (system.getGasGiants() > 0) {
+                double orbitNumber = availableOrbits.remove(DiceRoller.randInt(0, availableOrbits.size()).intValue());
+                GasGiant newGasGiant = new GasGiant();
+                newGasGiant.setOrbitNumber(orbitNumber);
+                primary.children.add(newGasGiant);
+                system.setGasGiants(system.getGasGiants()-1);
+                continue;
+            }
+            if (system.getPlanetoidBelts() > 0) {
+                double orbitNumber = availableOrbits.remove(DiceRoller.randInt(0, availableOrbits.size()).intValue());
+                PlanetoidBelt newBelt = new PlanetoidBelt();
+                newBelt.setOrbitNumber(orbitNumber);
+                primary.children.add(newBelt);
+                system.setPlanetoidBelts(system.getPlanetoidBelts()-1);
+                continue;
+            }
+            if (system.getTerrestrialPlanets() > 0) {
+                double orbitNumber = availableOrbits.remove(DiceRoller.randInt(0, availableOrbits.size()).intValue());
+                Terrestrial newPlanet = new Terrestrial();
+                newPlanet.setOrbitNumber(orbitNumber);
+                primary.children.add(newPlanet);
+                system.setTerrestrialPlanets(system.getTerrestrialPlanets()-1);
+            }
+        }
 
+        primary.children.sort(new DiscreteBodyComparator());
+        for (int i = 1; i < primary.children.size()+1; i++) {
+            primary.children.get(i-1).setName(primary.getName() + " " + i);
+        }
     }
 
-    public static void GenerateOrbitSlots(SolarSystem system) {
+    public static void GenerateOrbitSlots(StarSystem system) {
 
     }
 
