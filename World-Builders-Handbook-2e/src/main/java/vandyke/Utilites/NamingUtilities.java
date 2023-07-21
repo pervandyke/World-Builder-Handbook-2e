@@ -2,6 +2,8 @@ package vandyke.Utilites;
 
 import vandyke.DataObjects.Comparators.DiscreteBodyComparator;
 import vandyke.DataObjects.DiscreteBody;
+import vandyke.DataObjects.GasGiant;
+import vandyke.DataObjects.Terrestrial;
 
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
@@ -34,8 +36,16 @@ public class NamingUtilities {
 
     public static void NumberChildren(DiscreteBody parent) {
         parent.children.sort(new DiscreteBodyComparator());
-        for (int i = 1; i < parent.children.size()+1; i++) {
-            parent.children.get(i-1).setName(parent.getName() + " " + i);
+        int planets = 1;
+        int belts = 1;
+        for (DiscreteBody body : parent.children) {
+            if (body.getClass() == Terrestrial.class || body.getClass() == GasGiant.class) {
+                body.setName(parent.getName() + " " + ArabicRomanConversion.ArabicToRoman(planets));
+                planets++;
+            } else {
+                body.setName(parent.getName() + " Belt " + ArabicRomanConversion.ArabicToRoman(belts));
+                belts++;
+            }
         }
     }
 
