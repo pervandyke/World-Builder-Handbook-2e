@@ -1,12 +1,11 @@
 package vandyke.utility;
 
-import org.apache.commons.lang3.ClassUtils;
 import org.springframework.beans.BeanUtils;
+import vandyke.constant.BodyConstants;
 import vandyke.data.persistence.DiscreteBody;
 import vandyke.data.persistence.Planet;
 import vandyke.data.persistence.Star;
 import vandyke.data.persistence.StarSystem;
-import vandyke.data.schema.AsteroidBeltSchema;
 import vandyke.data.schema.OrbitalBodySchema;
 import vandyke.data.schema.StarSchema;
 import vandyke.data.schema.SystemSchema;
@@ -27,31 +26,21 @@ public class SchemaConversionUtil {
 
         BeanUtils.copyProperties(star, schema);
 
-        List<OrbitalBodySchema> planets = new ArrayList<>();
-        List<AsteroidBeltSchema> belts = new ArrayList<>();
+        List<OrbitalBodySchema> bodies = new ArrayList<>();
 
-        star.getChildren().stream().forEach(child -> {
-            if (child instanceof Planet) {
-                planets.add(ConvertPlanetToSchema(child));
-            }
+        star.getChildren().forEach(child -> {
+            bodies.add(ConvertBodyToSchema(child));
         });
 
-
-
+        schema.setBodies(bodies);
 
         return schema;
     }
 
-    public static OrbitalBodySchema ConvertPlanetToSchema(final DiscreteBody body) {
+    public static OrbitalBodySchema ConvertBodyToSchema(final DiscreteBody body) {
         OrbitalBodySchema schema = new OrbitalBodySchema();
-
-
-
+        Planet planet = (Planet) body;
+        BeanUtils.copyProperties(planet, schema);
         return schema;
     }
-
-
-
-
-
 }

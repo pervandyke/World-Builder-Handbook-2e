@@ -33,8 +33,6 @@ public class StarSchema {
 
     private Double habitableZoneCenterOrbit;
 
-    private List<OrbitalBodySchema> planets;
-
-    private List<AsteroidBeltSchema> belts;
+    private List<OrbitalBodySchema> bodies;
 
 }

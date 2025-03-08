@@ -9,6 +9,8 @@ public class OrbitalBodySchema {
 
     private String name;
 
+    private String planetClass;
+
     private Double orbitNumber;
 
     private Double orbitalPeriod;

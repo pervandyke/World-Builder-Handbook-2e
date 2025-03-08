@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 /**
  * This random name generator is a Java adaptation of the Elite Planet Name Generator found here: https://github.com/jabbalaci/Elite
  */
-public class ElitePlanets {
+public class ElitePlanet {
 
     private static final String pairs0  = "ABOUSEITILETSTONLONUTHNO";
     private static final String pairs = "..LEXEGEZACEBISOUSESARMAINDIREA.ERATENBERALAVETIEDORQUANTEISRION";

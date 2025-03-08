@@ -106,7 +106,7 @@ public class WorldOrbitGenerator {
         system.setOrbitSlots(system.getGasGiants() + system.getPlanetoidBelts() + system.getTerrestrialPlanets() + system.getEmptyOrbits());
     }
 
-    private void AssignOrbits(StarSystem system) throws Exception{
+    private void AssignOrbits(StarSystem system) {
         //Calculate MAO
         Double minimumAllowableOrbit = null;
 
@@ -134,7 +134,7 @@ public class WorldOrbitGenerator {
                         default -> null;
                     };
                     if (minimumAllowableOrbit == null) {
-                        throw new Exception("MAO cannot equal null.");
+                        throw new IllegalStateException("MAO cannot equal null.");
                     }
                 } else {
                     if (lowerReferenceMAO < upperReferenceMAO) {
@@ -156,38 +156,38 @@ public class WorldOrbitGenerator {
         Double HZCO_AU = Math.sqrt(primary.getLuminosity());
         Double HZCO_OrbitNumber = UnitConversionUtil.AUToOrbitNumber(HZCO_AU);
 
+        primary.setHabitableZoneCenterOrbit(HZCO_OrbitNumber);
+
         // Determine System Baseline Number
         //TODO: check if HZCO is legal orbit
         int totalWorlds = system.getPlanetoidBelts() + system.getGasGiants() + system.getTerrestrialPlanets();
 
-        if (true) {
-            int baselineRoll = DiceRoller.RollND6(2);
-            if (primary.getCompanion() != null) {
-                baselineRoll -= 2;
-            }
-            switch (primary.getStarClass()) {
-                case "Ia", "Ib", "II" -> baselineRoll += 3;
-                case "III" -> baselineRoll += 2;
-                case "IV" -> baselineRoll += 1;
-                case "VI" -> baselineRoll -= 1;
-            }
-            //TODO: post stellar objects
-
-            if (totalWorlds < 6) {
-                baselineRoll -= 4;
-            } else if (totalWorlds < 9) {
-                baselineRoll -= 3;
-            } else if (totalWorlds < 12) {
-                baselineRoll -= 2;
-            } else if (totalWorlds < 15) {
-                baselineRoll -= 1;
-            } else if (totalWorlds < 20) {
-                baselineRoll += 1;
-            } else {
-                baselineRoll += 2;
-            }
-            system.setSystemBaselineNumber(baselineRoll);
+        int baselineRoll = DiceRoller.RollND6(2);
+        if (primary.getCompanion() != null) {
+            baselineRoll -= 2;
         }
+        switch (primary.getStarClass()) {
+            case "Ia", "Ib", "II" -> baselineRoll += 3;
+            case "III" -> baselineRoll += 2;
+            case "IV" -> baselineRoll += 1;
+            case "VI" -> baselineRoll -= 1;
+        }
+        //TODO: post stellar objects
+
+        if (totalWorlds < 6) {
+            baselineRoll -= 4;
+        } else if (totalWorlds < 9) {
+            baselineRoll -= 3;
+        } else if (totalWorlds < 12) {
+            baselineRoll -= 2;
+        } else if (totalWorlds < 15) {
+            baselineRoll -= 1;
+        } else if (totalWorlds < 20) {
+            baselineRoll += 1;
+        } else {
+            baselineRoll += 2;
+        }
+        system.setSystemBaselineNumber(baselineRoll);
 
         int baselineNumber = system.getSystemBaselineNumber();
         double baselineOrbitNumber;
