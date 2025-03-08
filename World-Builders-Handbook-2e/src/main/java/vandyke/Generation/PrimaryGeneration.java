@@ -1,15 +1,9 @@
-package vandyke.Generation;
+package vandyke.generation;
 
-import com.sun.source.tree.IfTree;
-import vandyke.DataObjects.Primary;
-import vandyke.DataObjects.Star;
-import vandyke.Reference.StarTables;
-import vandyke.Utilites.DiceRoller;
-import vandyke.Utilites.Formulas;
-import vandyke.Utilites.NamingUtilities;
-import vandyke.Utilites.StarGenerationUtilities;
-
-import java.text.Normalizer;
+import vandyke.data.persistence.Primary;
+import vandyke.reference.StarTables;
+import vandyke.utility.NamingUtilities;
+import vandyke.utility.StarGenerationUtilities;
 
 public class PrimaryGeneration {
 

@@ -1,9 +1,7 @@
-package vandyke.Generation;
+package vandyke.generation;
 
-import org.springframework.stereotype.Service;
-import vandyke.DataObjects.StarSystem;
+import vandyke.data.persistence.StarSystem;
 
-@Service
 public class SystemGenerator {
 
     static PrimaryGeneration primaryGenerator = new PrimaryGeneration();

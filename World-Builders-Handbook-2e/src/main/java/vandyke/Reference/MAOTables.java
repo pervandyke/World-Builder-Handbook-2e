@@ -1,4 +1,4 @@
-package vandyke.Reference;
+package vandyke.reference;
 
 import java.util.Hashtable;
 

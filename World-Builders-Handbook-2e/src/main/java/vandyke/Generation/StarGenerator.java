@@ -1,9 +1,9 @@
-package vandyke.Generation;
+package vandyke.generation;
 
-import vandyke.DataObjects.Star;
-import vandyke.Reference.StarTables;
-import vandyke.Utilites.DiceRoller;
-import vandyke.Utilites.StarGenerationUtilities;
+import vandyke.data.persistence.Star;
+import vandyke.reference.StarTables;
+import vandyke.utility.DiceRoller;
+import vandyke.utility.StarGenerationUtilities;
 
 public class StarGenerator {
 

@@ -1,3 +1,0 @@
-http://automaticromantic.com/static/misc/pytxtelite.txt
-
-Python conversion done by Ian Sparks

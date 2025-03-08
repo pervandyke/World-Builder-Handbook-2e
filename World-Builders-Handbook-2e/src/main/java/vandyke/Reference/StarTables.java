@@ -1,7 +1,6 @@
-package vandyke.Reference;
+package vandyke.reference;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.Hashtable;
 
 public class StarTables {

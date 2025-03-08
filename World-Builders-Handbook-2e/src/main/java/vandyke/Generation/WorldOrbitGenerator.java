@@ -1,19 +1,16 @@
-package vandyke.Generation;
+package vandyke.generation;
 
-import org.springframework.stereotype.Service;
-import vandyke.DataObjects.*;
-import vandyke.DataObjects.Comparators.DiscreteBodyComparator;
-import vandyke.Reference.MAOTables;
-import vandyke.Reference.MinimumAllowableOrbit;
-import vandyke.Reference.StarTables;
-import vandyke.Utilites.ConversionUtilites;
-import vandyke.Utilites.DiceRoller;
-import vandyke.Utilites.Formulas;
-import vandyke.Utilites.NamingUtilities;
+import vandyke.constant.BodyConstants;
+import vandyke.data.persistence.*;
+import vandyke.reference.MAOTables;
+import vandyke.reference.StarTables;
+import vandyke.utility.UnitConversionUtil;
+import vandyke.utility.DiceRoller;
+import vandyke.utility.Formulas;
+import vandyke.utility.NamingUtilities;
 
 import java.util.ArrayList;
 
-@Service
 public class WorldOrbitGenerator {
 
     private static final StarTables starTables = new StarTables();
@@ -157,7 +154,7 @@ public class WorldOrbitGenerator {
         }
 
         Double HZCO_AU = Math.sqrt(primary.getLuminosity());
-        Double HZCO_OrbitNumber = ConversionUtilites.AUToOrbitNumber(HZCO_AU);
+        Double HZCO_OrbitNumber = UnitConversionUtil.AUToOrbitNumber(HZCO_AU);
 
         // Determine System Baseline Number
         //TODO: check if HZCO is legal orbit
@@ -248,25 +245,25 @@ public class WorldOrbitGenerator {
             }
             if (system.getGasGiants() > 0) {
                 double orbitNumber = availableOrbits.remove(DiceRoller.randInt(0, availableOrbits.size()).intValue());
-                GasGiant newGasGiant = new GasGiant();
+                Planet newGasGiant = new Planet(BodyConstants.GAS_GIANT);
                 newGasGiant.setOrbitNumber(orbitNumber);
-                primary.children.add(newGasGiant);
+                primary.addChild(newGasGiant);
                 system.setGasGiants(system.getGasGiants()-1);
                 continue;
             }
             if (system.getPlanetoidBelts() > 0) {
                 double orbitNumber = availableOrbits.remove(DiceRoller.randInt(0, availableOrbits.size()).intValue());
-                PlanetoidBelt newBelt = new PlanetoidBelt();
+                Planet newBelt = new Planet(BodyConstants.ASTEROID_BELT);
                 newBelt.setOrbitNumber(orbitNumber);
-                primary.children.add(newBelt);
+                primary.addChild(newBelt);
                 system.setPlanetoidBelts(system.getPlanetoidBelts()-1);
                 continue;
             }
             if (system.getTerrestrialPlanets() > 0) {
                 double orbitNumber = availableOrbits.remove(DiceRoller.randInt(0, availableOrbits.size()).intValue());
-                Terrestrial newPlanet = new Terrestrial();
+                Planet newPlanet = new Planet(BodyConstants.TERRESTRIAL);
                 newPlanet.setOrbitNumber(orbitNumber);
-                primary.children.add(newPlanet);
+                primary.addChild(newPlanet);
                 system.setTerrestrialPlanets(system.getTerrestrialPlanets()-1);
             }
         }
@@ -290,42 +287,5 @@ public class WorldOrbitGenerator {
             case "VI" -> starMass = maoTables.VI.get(fullType);
         }
         return starMass;
-    }
-
-
-    // Revisit this later if going with real DB lookups
-    public static Double LookupReferenceMAO(String fullType, String starClass, MinimumAllowableOrbit MAO) {
-        Double starMAO = null;
-        switch (starClass) {
-            case "Ia" -> starMAO = MAO.getIa();
-            case "Ib" -> starMAO = MAO.getIb();
-            case "II" -> starMAO = MAO.getII();
-            case "III" -> starMAO = MAO.getIII();
-            case "IV" -> starMAO = MAO.getIV();
-            case "V" -> starMAO = MAO.getV();
-            case "VI" -> starMAO = MAO.getVI();
-        }
-        return starMAO;
-    }
-
-    private Double LookupMAOByClass(MinimumAllowableOrbit MAO, String starClass) {
-        Double result = null;
-        switch (starClass) {
-            case "Ia":
-                result = MAO.getIa();
-            case "Ib":
-                result = MAO.getIb();
-            case "II":
-                result = MAO.getII();
-            case "III":
-                result = MAO.getIII();
-            case "IV":
-                result = MAO.getIV();
-            case "V":
-                result = MAO.getV();
-            case "VI":
-                result = MAO.getVI();
-        }
-        return result;
     }
 }
