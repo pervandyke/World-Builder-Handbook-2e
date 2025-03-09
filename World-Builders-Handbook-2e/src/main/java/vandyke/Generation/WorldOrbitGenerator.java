@@ -228,6 +228,8 @@ public class WorldOrbitGenerator {
             spread = (20 - minimumAllowableOrbit) / (totalWorlds + system.getEmptyOrbits() + 1);
         }
 
+        system.setSystemSpread(spread);
+
         ArrayList<Double> availableOrbits = new ArrayList<>();
 
         availableOrbits.add((minimumAllowableOrbit + spread) + (((DiceRoller.RollND6(2) - 7) * spread) / 10));
@@ -245,27 +247,37 @@ public class WorldOrbitGenerator {
             }
             if (system.getGasGiants() > 0) {
                 double orbitNumber = availableOrbits.remove(DiceRoller.randInt(0, availableOrbits.size()).intValue());
-                Planet newGasGiant = new Planet(BodyConstants.GAS_GIANT);
+                OrbitalBody newGasGiant = new OrbitalBody(BodyConstants.GAS_GIANT);
                 newGasGiant.setOrbitNumber(orbitNumber);
+                newGasGiant.setGasGiantInfo(new GasGiantInfo());
                 primary.addChild(newGasGiant);
                 system.setGasGiants(system.getGasGiants()-1);
                 continue;
             }
             if (system.getPlanetoidBelts() > 0) {
                 double orbitNumber = availableOrbits.remove(DiceRoller.randInt(0, availableOrbits.size()).intValue());
-                Planet newBelt = new Planet(BodyConstants.ASTEROID_BELT);
+                OrbitalBody newBelt = new OrbitalBody(BodyConstants.ASTEROID_BELT);
                 newBelt.setOrbitNumber(orbitNumber);
+                newBelt.setBeltInfo(new AsteroidBeltInfo());
                 primary.addChild(newBelt);
                 system.setPlanetoidBelts(system.getPlanetoidBelts()-1);
                 continue;
             }
             if (system.getTerrestrialPlanets() > 0) {
                 double orbitNumber = availableOrbits.remove(DiceRoller.randInt(0, availableOrbits.size()).intValue());
-                Planet newPlanet = new Planet(BodyConstants.TERRESTRIAL);
+                OrbitalBody newPlanet = new OrbitalBody(BodyConstants.TERRESTRIAL);
                 newPlanet.setOrbitNumber(orbitNumber);
+                newPlanet.setTerrestrialInfo(new TerrestrialInfo());
                 primary.addChild(newPlanet);
                 system.setTerrestrialPlanets(system.getTerrestrialPlanets()-1);
             }
+        }
+
+        // Set planet sizes / orbital periods for all children
+        for (DiscreteBody body : primary.getChildren()) {
+            OrbitalBody orbitalBody = (OrbitalBody) body;
+            WorldCharacteristicsGenerator.setBasicPlanetSize(orbitalBody, system);
+            WorldCharacteristicsGenerator.calculateOrbitalPeriod(orbitalBody, system);
         }
 
         NamingUtilities.NumberChildren(primary);
@@ -274,6 +286,8 @@ public class WorldOrbitGenerator {
     public static void GenerateOrbitSlots(StarSystem system) {
 
     }
+
+
 
     public static Double LookupReferenceMAO(String fullType, String starClass) {
         Double starMass = null;

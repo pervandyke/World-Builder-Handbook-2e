@@ -1,14 +1,12 @@
 package vandyke.utility;
 
 import vandyke.data.persistence.Star;
-import vandyke.generation.StarGenerator;
+import vandyke.generation.SecondaryStarGenerator;
 import vandyke.reference.StarTables;
 
 import java.util.Objects;
 
 public class StarGenerationUtilities {
-
-    private static final DiceRoller roller = new DiceRoller();
 
     private static final StarTables starTables = new StarTables();
     public static void CalculateMassAndTemperature(Star star) throws Exception{
@@ -96,7 +94,7 @@ public class StarGenerationUtilities {
         }
 
         // Apply max 20% variance to mass
-        mass = mass + (mass * roller.randVariance(20));
+        mass = mass + (mass * DiceRoller.randVariance(20));
 
         star.setMass(mass);
         star.setTemperature(temperature);
@@ -197,7 +195,7 @@ public class StarGenerationUtilities {
 
 
     public static Star GenerateCompanions(Star primary) throws Exception {
-        return StarGenerator.GenerateCompanionStar(primary);
+        return SecondaryStarGenerator.GenerateCompanionStar(primary);
     }
 
     public static void GenerateTypeAndClass(Star star) {
@@ -216,14 +214,14 @@ public class StarGenerationUtilities {
         String starClass = Objects.requireNonNullElse(setClass, "V");
 
         if (type.equals("Special")) {
-            String specialResult = starTables.Special.get(roller.RollND6(2));
+            String specialResult = starTables.Special.get(DiceRoller.RollND6(2));
             switch (specialResult) {
                 case "Class VI" -> {
                     starClass = "VI";
                     typeRoll = rollType(1);
                     type = starTables.Type.get(typeRoll);
                     if (type.equals("Hot")) {
-                        type = starTables.Hot.get(roller.RollND6(2));
+                        type = starTables.Hot.get(DiceRoller.RollND6(2));
                     }
                     if (type.equals("F")) {
                         type = "G";
@@ -239,7 +237,7 @@ public class StarGenerationUtilities {
                     }
                     type = starTables.Type.get(typeRoll);
                     if (type.equals("Hot")) {
-                        type = starTables.Hot.get(roller.RollND6(2));
+                        type = starTables.Hot.get(DiceRoller.RollND6(2));
                         if (type.equals("O")) {
                             type = "B";
                         }
@@ -250,12 +248,12 @@ public class StarGenerationUtilities {
                     typeRoll = rollType(1);
                     type = starTables.Type.get(typeRoll);
                     if (type.equals("Hot")) {
-                        type = starTables.Hot.get(roller.RollND6(2));
+                        type = starTables.Hot.get(DiceRoller.RollND6(2));
                     }
                 }
                 default -> {
                     // Roll on Giants
-                    Integer giantsRoll = roller.RollND6(2);
+                    Integer giantsRoll = DiceRoller.RollND6(2);
                     String giantsResult = starTables.Giants.get(giantsRoll);
                     starClass = giantsResult.replaceFirst("Class ", "");
                     typeRoll = rollType(1);
@@ -263,13 +261,13 @@ public class StarGenerationUtilities {
                 }
             }
         } else if (type.equals("Hot")) {
-            type = starTables.Hot.get(roller.RollND6(2));
+            type = starTables.Hot.get(DiceRoller.RollND6(2));
         }
         star.setType(type);
         star.setStarClass(starClass);
         //System.out.println("Star Class: " + star.getStarClass());
         // Set subtype
-        Integer subType = roller.randInt(0, 10);
+        int subType = DiceRoller.randInt(0, 10);
         if (star.getType().equals("K") && star.getStarClass().equals("IV") && subType > 4) {
             subType = subType-5;
         }
@@ -280,9 +278,9 @@ public class StarGenerationUtilities {
         double age;
 
         if (star.getMass() >= 0.9f) {
-            age = star.getLifespan() * ((roller.RollDN(100)/100f));
+            age = star.getLifespan() * ((DiceRoller.RollDN(100)/100f));
         } else {
-            age = roller.RollDN(6) * 2d + roller.RollDN(3) - 2d + (roller.RollDN(10)/10d);
+            age = DiceRoller.RollDN(6) * 2d + DiceRoller.RollDN(3) - 2d + (DiceRoller.RollDN(10)/10d);
         }
         //TODO: Implement Giant and Sub-Giant age generation
         return age;
@@ -291,25 +289,25 @@ public class StarGenerationUtilities {
     public static void GenerateStellarOrbitNumber(Star star) {
         double result;
         switch (star.getOrbitClass()) {
-            case "Companion" -> star.setOrbitNumber((roller.RollND6(1) / 10d) + ((roller.RollND6(2) - 7f) / 100d));
+            case "Companion" -> star.setOrbitNumber((DiceRoller.RollND6(1) / 10d) + ((DiceRoller.RollND6(2) - 7f) / 100d));
             case "Close" -> {
-                int roll = roller.RollND6(1) - 1;
+                int roll = DiceRoller.RollND6(1) - 1;
                 result = roll;
                 if (roll == 0) {
-                    result = 0.5d + (0.5f * roller.randPercentage(100));
+                    result = 0.5d + (0.5f * DiceRoller.randPercentage(100));
                 } else {
-                    result = result + (0.5f * roller.randVariance(100));
+                    result = result + (0.5f * DiceRoller.randVariance(100));
                 }
                 star.setOrbitNumber(result);
             }
             case "Near" -> {
-                result = roller.RollND6(1) + 5d;
-                result = result + (0.5f * roller.randVariance(100));
+                result = DiceRoller.RollND6(1) + 5d;
+                result = result + (0.5f * DiceRoller.randVariance(100));
                 star.setOrbitNumber(result);
             }
             case "Far" -> {
-                result = roller.RollND6(1) + 11d;
-                result = result + (0.5f * roller.randVariance(100));
+                result = DiceRoller.RollND6(1) + 11d;
+                result = result + (0.5f * DiceRoller.randVariance(100));
                 star.setOrbitNumber(result);
             }
         }
@@ -344,7 +342,7 @@ public class StarGenerationUtilities {
     }
 
     public static Integer rollType(Integer modifier) {
-        int roll = roller.RollND6(2) + modifier;
+        int roll = DiceRoller.RollND6(2) + modifier;
         if (roll < 2) {
             roll = 2;
         }

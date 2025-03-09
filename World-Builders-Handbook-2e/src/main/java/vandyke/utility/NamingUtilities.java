@@ -3,7 +3,7 @@ package vandyke.utility;
 import vandyke.constant.BodyConstants;
 import vandyke.data.comparator.DiscreteBodyComparator;
 import vandyke.data.persistence.DiscreteBody;
-import vandyke.data.persistence.Planet;
+import vandyke.data.persistence.OrbitalBody;
 
 public class NamingUtilities {
 
@@ -16,8 +16,8 @@ public class NamingUtilities {
         int planets = 1;
         int belts = 1;
         for (DiscreteBody body : parent.getChildren()) {
-            Planet planet = (Planet) body;
-            if (!planet.getPlanetClass().equals(BodyConstants.ASTEROID_BELT)) {
+            OrbitalBody orbitalBody = (OrbitalBody) body;
+            if (!orbitalBody.getOrbitalBodyClass().equals(BodyConstants.ASTEROID_BELT)) {
                 body.setName(parent.getName() + " " + ArabicRomanConversion.ArabicToRoman(planets));
                 planets++;
             } else {

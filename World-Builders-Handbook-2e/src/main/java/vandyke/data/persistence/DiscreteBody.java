@@ -1,5 +1,6 @@
 package vandyke.data.persistence;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,10 +11,12 @@ import java.util.ArrayList;
 public class DiscreteBody {
 
     private String name;
+
     private Double orbitNumber;
 
     private Double orbitalPeriod;
 
+    @JsonIgnore
     private DiscreteBody parent;
 
     private ArrayList<DiscreteBody> children = new ArrayList<>();

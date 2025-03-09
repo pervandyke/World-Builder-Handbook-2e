@@ -1,5 +1,6 @@
 package vandyke.data.persistence;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,10 +16,13 @@ public class Star extends DiscreteBody{
 
     private Double subTypeFraction;
 
+    @JsonIgnore
     private String upperAdjacentType;
 
+    @JsonIgnore
     private String lowerAdjacentType;
 
+    @JsonIgnore
     private Double referenceRange;
 
     private String starClass;
@@ -41,6 +45,7 @@ public class Star extends DiscreteBody{
 
     private String orbitClass;
 
+    @JsonIgnore
     private Integer assignedOrbitCount;
 
     public ArrayList<OrbitRange> orbitLegality;

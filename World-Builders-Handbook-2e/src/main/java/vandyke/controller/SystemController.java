@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vandyke.data.persistence.StarSystem;
-import vandyke.data.schema.SystemSchema;
 import vandyke.service.SystemGenerationService;
-import vandyke.utility.SchemaConversionUtil;
 
 @RestController
 @RequestMapping(path = "/wbh")
@@ -22,9 +20,9 @@ public class SystemController {
     }
 
     @GetMapping(path = "/system")
-    public ResponseEntity<SystemSchema> generateStarSystem() {
+    public ResponseEntity<StarSystem> generateStarSystem() {
         StarSystem system = systemService.generateSystem();
-        return ResponseEntity.status(HttpStatus.OK).body(SchemaConversionUtil.ConvertSystemToSchema(system));
+        return ResponseEntity.status(HttpStatus.OK).body(system);
     }
 
 }

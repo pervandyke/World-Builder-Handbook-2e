@@ -4,7 +4,7 @@ import vandyke.data.persistence.StarSystem;
 
 public class SystemGenerator {
 
-    static PrimaryGeneration primaryGenerator = new PrimaryGeneration();
+    static PrimaryStarGenerator primaryGenerator = new PrimaryStarGenerator();
 
     static WorldOrbitGenerator worldGenerator = new WorldOrbitGenerator();
 

@@ -1,5 +1,6 @@
 package vandyke.data.persistence;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import vandyke.data.comparator.DiscreteBodyComparator;
@@ -13,24 +14,34 @@ public class StarSystem {
 
     private Primary primaryStar;
 
+    @JsonIgnore
     private Integer starCount;
 
+    @JsonIgnore
     public ArrayList<DiscreteBody> bodies = new ArrayList<>();
 
+    @JsonIgnore
     private Integer orbitSlots;
 
+    @JsonIgnore
     private Integer gasGiants;
 
+    @JsonIgnore
     private Integer planetoidBelts;
 
+    @JsonIgnore
     private Integer terrestrialPlanets;
 
+    @JsonIgnore
     private Integer emptyOrbits;
 
+    @JsonIgnore
     private Integer systemBaselineNumber;
 
+    @JsonIgnore
     private Double systemBaselineOrbitNumber;
 
+    @JsonIgnore
     private Double systemSpread;
 
     @Override
@@ -47,8 +58,8 @@ public class StarSystem {
         }
         this.primaryStar.getChildren().sort(new DiscreteBodyComparator());
         for (DiscreteBody body : this.getPrimaryStar().getChildren()) {
-            Planet planet = (Planet) body;
-            sb.append(" " + body.getName() + ", Class: " + planet.getPlanetClass() + ", Orbit#: " + body.getOrbitNumber().floatValue() + ", " + UnitConversionUtil.OrbitNumberToAU(body.getOrbitNumber()).floatValue() + " AU\n");
+            OrbitalBody orbitalBody = (OrbitalBody) body;
+            sb.append(" " + body.getName() + ", Class: " + orbitalBody.getOrbitalBodyClass() + ", Orbit#: " + body.getOrbitNumber().floatValue() + ", " + UnitConversionUtil.OrbitNumberToAU(body.getOrbitNumber()).floatValue() + " AU\n");
         }
         if (this.getPrimaryStar().getCloseStar() != null) {
             sb.append(" Close: " + this.getPrimaryStar(). getCloseStar().getType() + this.getPrimaryStar().getCloseStar().getSubType()

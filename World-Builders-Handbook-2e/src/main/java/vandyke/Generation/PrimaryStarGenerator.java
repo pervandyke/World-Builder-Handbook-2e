@@ -5,11 +5,9 @@ import vandyke.reference.StarTables;
 import vandyke.utility.NamingUtilities;
 import vandyke.utility.StarGenerationUtilities;
 
-public class PrimaryGeneration {
+public class PrimaryStarGenerator {
 
-    StarTables starTables = new StarTables();
-
-
+    public static final StarTables starTables = new StarTables();
 
     public Primary Generate() throws Exception {
         Primary primary = new Primary();

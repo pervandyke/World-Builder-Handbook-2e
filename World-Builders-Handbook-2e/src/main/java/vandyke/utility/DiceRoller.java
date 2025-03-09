@@ -17,6 +17,14 @@ public class DiceRoller {
         return r.nextInt(1, N + 1);
     }
 
+    public static Integer RollXDN(Integer X, Integer N) {
+        int total = 0;
+        for (int i = 0; i < X; i++) {
+            total = total + RollDN(N);
+        }
+        return total;
+    }
+
     public static Integer randInt(Integer lower, Integer upper) {
         return r.nextInt(lower, upper);
     }

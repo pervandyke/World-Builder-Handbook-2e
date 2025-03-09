@@ -5,9 +5,7 @@ import vandyke.reference.StarTables;
 import vandyke.utility.DiceRoller;
 import vandyke.utility.StarGenerationUtilities;
 
-public class StarGenerator {
-
-    private static final DiceRoller roller = new DiceRoller();
+public class SecondaryStarGenerator {
 
     private static final StarTables starTables = new StarTables();
 
@@ -19,7 +17,7 @@ public class StarGenerator {
         // Companion present!
         if (companionPresent) {
             //System.out.println("Companion present!");
-            Integer companionTypeRoll = roller.RollND6(2);
+            Integer companionTypeRoll = DiceRoller.RollND6(2);
             if (parent.getStarClass().equals("III") || parent.getStarClass().equals("IV")) {
                 companionTypeRoll--;
                 if (companionTypeRoll < 2) {
@@ -60,7 +58,7 @@ public class StarGenerator {
         // Secondary present!
         if (secondaryPresent) {
             //System.out.println("Companion present!");
-            Integer secondaryTypeRoll = roller.RollND6(2);
+            Integer secondaryTypeRoll = DiceRoller.RollND6(2);
             if (primary.getStarClass().equals("III") || primary.getStarClass().equals("IV")) {
                 secondaryTypeRoll--;
                 if (secondaryTypeRoll < 2) {
@@ -97,7 +95,7 @@ public class StarGenerator {
 
     private static boolean CheckForNonPrimaryPresence(Star primary) {
         // Check for occurrence of companion
-        Integer nonPrimaryRoll = roller.RollND6(2);
+        Integer nonPrimaryRoll = DiceRoller.RollND6(2);
         //System.out.println("Raw Companion Roll: " + nonPrimaryRoll);
 
         String primaryStarClass = primary.getStarClass();
@@ -170,7 +168,7 @@ public class StarGenerator {
 
     private static void GenerateSiblingNonPrimary(Star nonPrimary, Star primary) throws Exception {
         String newType = null;
-        int newSubType = primary.getSubType() + roller.RollND6(1);
+        int newSubType = primary.getSubType() + DiceRoller.RollND6(1);
 
         if (newSubType > 10) {
             newSubType -= 10;
@@ -210,7 +208,7 @@ public class StarGenerator {
 
         StarGenerationUtilities.CalculateMassAndTemperature(nonPrimary);
 
-        Double randomVariation = 1d - ((roller.RollND6(1) - 1d) / 100d);
+        Double randomVariation = 1d - ((DiceRoller.RollND6(1) - 1d) / 100d);
 
         nonPrimary.setMass(primary.getMass() * randomVariation);
         nonPrimary.setDiameter(primary.getDiameter() * randomVariation);
