@@ -11,17 +11,18 @@ import vandyke.utility.NamingUtilities;
 
 import java.util.ArrayList;
 
-public class WorldOrbitGenerator {
+public class WorldGenerator {
 
     private static final StarTables starTables = new StarTables();
 
     private static final MAOTables maoTables = new MAOTables();
 
-    public void GenerateWorlds(StarSystem system) throws Exception{
-        GenerateBodyCount(system);
-        AssignOrbits(system);
+    public void GenerateWorlds(StarSystem system){
+        generateBodyCount(system);
+        assignOrbits(system);
+        generateWorldDetails(system);
     }
-    public void GenerateBodyCount(StarSystem system) {
+    public void generateBodyCount(StarSystem system) {
         // Gas Giants exist on 9 or less
         if (DiceRoller.RollND6(2) < 10) {
             int gasGiantRoll = DiceRoller.RollND6(2);
@@ -106,7 +107,7 @@ public class WorldOrbitGenerator {
         system.setOrbitSlots(system.getGasGiants() + system.getPlanetoidBelts() + system.getTerrestrialPlanets() + system.getEmptyOrbits());
     }
 
-    private void AssignOrbits(StarSystem system) {
+    private void assignOrbits(StarSystem system) {
         //Calculate MAO
         Double minimumAllowableOrbit = null;
 
@@ -117,7 +118,7 @@ public class WorldOrbitGenerator {
         String starClass = system.getPrimaryStar().getStarClass();
         String fullType = type + subType;
 
-        if (system.getStarCount() == 1) {
+        if (true || system.getStarCount() == 1) {
             if (subType == 0 || subType == 5 || fullType.equals("M9")) {
                 minimumAllowableOrbit = LookupReferenceMAO(fullType, starClass);
             } else {
@@ -153,8 +154,8 @@ public class WorldOrbitGenerator {
 
         }
 
-        Double HZCO_AU = Math.sqrt(primary.getLuminosity());
-        Double HZCO_OrbitNumber = UnitConversionUtil.AUToOrbitNumber(HZCO_AU);
+        double HZCO_AU = Math.sqrt(primary.getLuminosity());
+        double HZCO_OrbitNumber = UnitConversionUtil.AUToOrbitNumber(HZCO_AU);
 
         primary.setHabitableZoneCenterOrbit(HZCO_OrbitNumber);
 
@@ -238,7 +239,22 @@ public class WorldOrbitGenerator {
         }
         // TODO: figure out anomalous orbits
 
-        //TODO: modularize so can be applied to secondaries
+        initializeWorlds(system, totalWorlds, availableOrbits, primary);
+
+        NamingUtilities.NumberChildren(primary);
+    }
+
+    private static void generateWorldDetails(StarSystem system) {
+        // Set planet sizes / orbital periods for all children
+        for (DiscreteBody body : system.getPrimaryStar().getChildren()) {
+            OrbitalBody orbitalBody = (OrbitalBody) body;
+            WorldCharacteristicsGenerator.setBasicPlanetSize(orbitalBody, system);
+            WorldCharacteristicsGenerator.calculateOrbitalPeriod(orbitalBody, system);
+            WorldCharacteristicsGenerator.generateMoonsAndRings(orbitalBody);
+        }
+    }
+
+    private static void initializeWorlds(StarSystem system, int totalWorlds, ArrayList<Double> availableOrbits, Primary primary) {
         for (int i = 0; i < totalWorlds + system.getEmptyOrbits(); i++) {
             if (system.getEmptyOrbits() > 0) {
                 availableOrbits.remove(DiceRoller.randInt(0, availableOrbits.size()).intValue());
@@ -272,22 +288,7 @@ public class WorldOrbitGenerator {
                 system.setTerrestrialPlanets(system.getTerrestrialPlanets()-1);
             }
         }
-
-        // Set planet sizes / orbital periods for all children
-        for (DiscreteBody body : primary.getChildren()) {
-            OrbitalBody orbitalBody = (OrbitalBody) body;
-            WorldCharacteristicsGenerator.setBasicPlanetSize(orbitalBody, system);
-            WorldCharacteristicsGenerator.calculateOrbitalPeriod(orbitalBody, system);
-        }
-
-        NamingUtilities.NumberChildren(primary);
     }
-
-    public static void GenerateOrbitSlots(StarSystem system) {
-
-    }
-
-
 
     public static Double LookupReferenceMAO(String fullType, String starClass) {
         Double starMass = null;

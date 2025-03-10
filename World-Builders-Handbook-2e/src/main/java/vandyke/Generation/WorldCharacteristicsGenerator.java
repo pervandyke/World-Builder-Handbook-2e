@@ -67,4 +67,9 @@ public class WorldCharacteristicsGenerator {
         */
     }
 
+    public static void generateMoonsAndRings(OrbitalBody body) {
+
+    }
+
+
 }

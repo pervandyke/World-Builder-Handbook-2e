@@ -6,7 +6,7 @@ public class SystemGenerator {
 
     static PrimaryStarGenerator primaryGenerator = new PrimaryStarGenerator();
 
-    static WorldOrbitGenerator worldGenerator = new WorldOrbitGenerator();
+    static WorldGenerator worldGenerator = new WorldGenerator();
 
     public static StarSystem GenerateSystem() {
         StarSystem system = new StarSystem();

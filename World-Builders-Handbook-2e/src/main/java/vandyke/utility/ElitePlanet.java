@@ -24,15 +24,6 @@ public class ElitePlanet {
         return value & mask;
     }
 
-    private static int rotate1(int x) {
-        int temp = x & 128;
-        return (2 * (x & 127)) + (temp >> 7);
-    }
-
-    private static int twist(int x) {
-        return (256 * rotate1(x >> 8)) + rotate1(x & 255);
-    }
-
     private static String makePlanet() {
         Seed seed = new Seed();
 
@@ -68,9 +59,9 @@ public class ElitePlanet {
     }
 
     private static class Seed {
-        int w0 = 0;
-        int w1 = 0;
-        int w2 = 0;
+        int w0;
+        int w1;
+        int w2;
 
         public Seed() {
             this.w0 = r.nextInt();
